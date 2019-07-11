@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Submitted Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.css">
+    <script type="text/javascript" src="bootstrap/dist/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="/animate.css">
+</head>
+<style>
+    form{
+        display: inline;
+    }
+</style>
+<script>
+    $(document).ready(function(){
+        $('#searchbox').keyup(function(){
+            $.post("/search",{search: $("#searchbox").val()},function(data){
+					// window.open('/logs','_self');
+			});
+        })
+    })
+</script>
+<body class="bg-dark">
+    <div class="container-fluid">
+        <div class="row mt-1">
+            <div class="col-10 offset-1">
+            <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-primary text-white pr-3">Search: </span>
+                    </div>
+                    <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search...">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12" style="margin: 2% auto">
+                <table class="animated bounceInLeft table shadow table-light table-striped table-bordered table-hover table-responsive-sm">
+                    <thead style="text-align: center" class="thead-dark shadow">
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Phone Number</th>
+                        <th>Email</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        <% if(logs!==null) {%>
+                        <% for(i=0; i<logs.length; i++){
+                        %>
+                        <tr>
+                            <td><%= logs[i].fname %></td>
+                            <td><%= logs[i].lname %></td>
+                            <td><%= logs[i].phone %></td>
+                            <td><%= logs[i].email %></td>
+                            <td></td>
+                            <td><button class="btn btn-primary mr-2" data-toggle="modal" data-target="#<%= logs[i].id %><%= logs[i].id %>">Edit</button>
+                                <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#<%= logs[i].id%>">Delete</button></td>
+                                <div class="modal fade mt-5" id="<%= logs[i].id%>">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4>Do you really want to delete this user?</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                    <form action="/delete" method="POST">
+                                                        <input type="hidden" class="form-control" name="uid" value="<%= logs[i].id %>">
+                                                        <button type="submit" class="btn btn-primary">Yes</button>
+                                                        <button data-dismiss="modal" class="close">No</button>
+                                                    </form>    
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="modal fade" id="<%= logs[i].id %><%= logs[i].id %>">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                          <h4 class="modal-title">Update your Details</h4>
+                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                  
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                        <form action="/update" method="POST">
+                                            <input type="hidden" class="form-control" name="uid" value="<%= logs[i].id %>">
+                                          First Name: <input type="text" class="form-control" name="fname" value="<%= logs[i].fname %>">
+                                          Last Name: <input type="text" class="form-control" name="lname" value="<%= logs[i].lname %>">
+                                          Phone: <input type="phone" class="form-control" name="phone" value="<%= logs[i].phone %>">
+                                          Email: <input type="email" class="form-control" name="email" value="<%= logs[i].email %>">
+                                          <p align="center"><button type="submit" class="btn btn-primary mt-2">Effect Changes</button></p>
+                                        </form>
+                                        </div>
+                                  
+                                        <!-- Modal footer -->
+                                        <!-- <div class="modal-footer">
+                                          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        </div> -->
+                                  
+                                      </div>
+                                    </div>
+                            </div>
+                        </tr>
+                        
+                        <% } %>
+                        <% } %>
+                    </tbody>
+                </table>
+                <!-- <a href="/"><button class="btn btn-block btn-primary">Add New Detail</button> -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>

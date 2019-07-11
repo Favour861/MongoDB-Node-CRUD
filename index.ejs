@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.css">
+    <script type="text/javascript" src="bootstrap/dist/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="/animate.css">
+</head>
+
+<body class="bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 animated bounceInLeft" style="margin: 10% auto">
+                <form action="/addDetails" method="POST" enctype="multipart/form-data">
+                    <h1 class="bg-primary p-2 text-white" align="center" style="border-top-right-radius: 6px;border-top-left-radius: 6px;font-family: impact; border: 2px solid black">ADD NEW DETAIL</h1>
+                    <div class="form-group bg-light pb-3" style="border-radius: 5px; border: 2px solid black">
+                        <% if(success!==null){%>
+                            <p align="center" class="bg-success text-white mt-1">Details successfully added! <br> <%= time %></p>
+                        <% } %>
+                        <hr>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-primary text-white">First Name: </span>
+                            </div>
+                            <input type="text" name="fname" class="form-control" placeholder="Enter your first name">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-primary text-white">Last Name: </span>
+                            </div>
+                            <input type="text" name="lname" class="form-control" placeholder="Enter your last name">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-primary text-white pr-3">Phone No: </span>
+                            </div>
+                            <input type="phone" name="phone" class="form-control" placeholder="Enter your phone number">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-primary text-white pr-5">Email: </span>
+                            </div>
+                            <input type="email" name="email" class="form-control" placeholder="Enter your email address">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-primary text-white pr-5">Passport: </span>
+                            </div>
+                            <input type="file" name="pspt" class="form-control">
+                        </div>
+                        <p align="center" class="pt-1">
+                        <button class="btn btn-primary btn-block" type="submit">Submit</button>
+                    </p>
+                    </div>
+                </form>
+                <!-- <form action="/logs"> -->
+                <p align="center"><button class="btn btn-success" data-toggle="modal" data-target="#logview">View Logs</button></p>
+                <!-- </form> -->
+            </div>
+        </div>
+        <div class="modal fade mt-5" id="logview">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4>Select the column(s) to view</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                                <form action="/logs" method="POST">
+                                    <input type="checkbox" name="fname"> First Name <br>
+                                    <input type="checkbox" name="lname"> Last Name <br>
+                                    <input type="checkbox" name="phone"> Phone Number <br>
+                                    <input type="checkbox" name="email"> Email <br>
+                                    <input type="checkbox" name="image"> Image <br><br>
+                                    <button type="submit" class="btn btn-primary">View</button>  
+                                </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</body>
+</html>
