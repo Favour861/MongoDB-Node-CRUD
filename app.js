@@ -40,6 +40,9 @@ var user = mongoose.model("user", nameSchema);
 app.get('/', (req, res)=>{
     res.render(__dirname+"/index.ejs", {success: null});
 });
+var toView = [];
+var vList = [];
+
 app.post('/logs', (req, res)=>{
     // let list = req.body.view;
     let fname = req.body.fname;
@@ -48,8 +51,8 @@ app.post('/logs', (req, res)=>{
     let email = req.body.email;
     let image = req.body.image;
     let prop= {};
-    let toView = [];
-    let vList = [];
+    toView = [];
+    vList = [];
     if(fname){
         prop.fname=1
         toView.push("First Name");
@@ -88,16 +91,16 @@ app.post('/logs', (req, res)=>{
     //   console.log(vList)
     });
 });
-app.get('/delete', (req,res)=>{
-  res.sendFile(__dirname+"/logs.ejs");
-});
+// app.get('/delete', (req,res)=>{
+//   res.sendFile(__dirname+"/logs.ejs");
+// });
 app.post('/delete', (req, res)=>{
     let id = req.body.uid;
 //   console.log(id);
   user.deleteOne({ _id: id }, ()=>{
     //   console.log(result);
     user.find((err, result)=>{
-      res.render(__dirname+"/logs.ejs", {logs: result});
+      res.render(__dirname+"/logs.ejs", {logs: result, tv: toView, vl: vList});
     });
   });
 })
@@ -107,7 +110,7 @@ app.post('/search', (req, res)=>{
 //   console.log(id);
     //   console.log(result);
     user.find({ fname: { $regex: req.body.search, $options: 'i' } },(err, result)=>{
-      res.render(__dirname+"/logs.ejs", {logs: result});
+      res.render(__dirname+"/logs.ejs", {logs: result, tv: toView, vl: vList});
       console.log(result);
     });
 
